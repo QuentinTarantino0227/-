@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+@layer base {
+  /* 确保 Word 导出 HTML 中的下划线正常显示 */
+  .word-export-wrapper u,
+  .word-export-wrapper [style*="text-decoration:underline"] {
+    text-decoration: underline;
+  }
+}
+
+@layer components {
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  .form-input {
+    @apply w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 transition-colors;
+  }
+  .form-input-error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+  }
+  .form-error-msg {
+    @apply mt-1 text-xs text-red-600;
+  }
+  .form-hint {
+    @apply mt-1.5 text-xs text-gray-500 bg-gray-50 rounded px-2 py-1.5;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+  }
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+  .step-active {
+    @apply bg-primary-600 text-white border-primary-600;
+  }
+  .step-completed {
+    @apply bg-primary-100 text-primary-700 border-primary-200;
+  }
+  .step-pending {
+    @apply bg-gray-100 text-gray-500 border-gray-200;
+  }
+
+  .docx-preview {
+    font-family: "SimSun", "宋体", serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #1a1a1a;
+  }
+  .docx-preview p {
+    margin: 0.5em 0;
+  }
+  .docx-preview table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5em 0;
+  }
+  .docx-preview td,
+  .docx-preview th {
+    border: 1px solid #ccc;
+    padding: 6px 8px;
+    vertical-align: top;
+  }
+  .docx-preview ul,
+  .docx-preview ol {
+    margin: 0.5em 0;
+    padding-left: 2em;
+  }
+  .docx-preview li {
+    margin: 0.2em 0;
+  }
+  .docx-preview h1,
+  .docx-preview h2,
+  .docx-preview h3,
+  .docx-preview h4 {
+    font-weight: bold;
+    margin: 0.8em 0 0.4em;
+  }
+  .docx-preview h1 { font-size: 1.5em; }
+  .docx-preview h2 { font-size: 1.3em; }
+  .docx-preview h3 { font-size: 1.15em; }
+  .docx-preview h4 { font-size: 1em; }
+  .docx-preview strong {
+    font-weight: bold;
+  }
+  .docx-preview em {
+    font-style: italic;
+  }
+  .docx-preview u {
+    text-decoration: underline;
+  }
+  .docx-preview s {
+    text-decoration: line-through;
+  }
+}
