@@ -181,12 +181,11 @@ export function useFormState() {
           next.subsidiaries.push({ ...defaultSubsidiary, id: generateId() });
         }
         const first = next.subsidiaries[0];
-        const isEmpty = !first.name.trim() && !first.creditCode.trim();
+        const isEmpty = !first.name.trim();
         if (isEmpty) {
           next.subsidiaries[0] = {
             ...first,
             name: next.coreInfo.initiatorName,
-            creditCode: next.coreInfo.creditCode,
             repaymentAccount: next.coreInfo.repaymentAccount,
             repaymentBank: next.coreInfo.repaymentBank,
             repaymentUnionCode: next.coreInfo.repaymentUnionCode,

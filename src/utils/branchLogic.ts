@@ -1,4 +1,4 @@
-import type { FormState } from '../types/form';
+import type { FormState } from '../types/form.js';
 import { addMonths, parseISO, format } from 'date-fns';
 
 export function isGroupMode(state: FormState): boolean {
@@ -84,4 +84,3 @@ export function getClearingPlanName(clearingMethod: string): string {
   if (idx === -1) return clearingMethod;
   return clearingMethod.slice(idx + 1).trim();
 }
-

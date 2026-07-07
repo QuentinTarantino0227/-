@@ -1,19 +1,19 @@
 import { Router } from 'express';
-import * as contractGenerator from '../services/contractGenerator';
-import { logContractGeneration, logBundleGeneration } from '../services/auditLogger';
+import * as contractGenerator from '../services/contractGenerator.js';
+import { logContractGeneration, logBundleGeneration } from '../services/auditLogger.js';
 
 const router = Router();
 
 // POST /api/contract/generate
 router.post('/generate', async (req, res) => {
   try {
-    const { formState, templateKey } = req.body;
+    const { formState, templateKey, projectCreator } = req.body;
     
     if (!formState || !templateKey) {
       return res.status(400).json({ error: 'Missing formState or templateKey' });
     }
 
-    const generators: Record<string, (state: any) => Promise<Buffer>> = {
+    const generators: Record<string, (state: any, context?: { projectCreator?: string }) => Promise<Buffer>> = {
       contract: contractGenerator.generateContractDocx,
       quotaRate: contractGenerator.generateQuotaRateDocx,
       investor: contractGenerator.generateInvestorInfoDocx,
@@ -30,7 +30,7 @@ router.post('/generate', async (req, res) => {
       return res.status(400).json({ error: `Unknown template key: ${templateKey}` });
     }
 
-    const buffer = await generator(formState);
+    const buffer = await generator(formState, { projectCreator });
     
     // 记录成功日志
     logContractGeneration(req, formState.projectId, templateKey, true);
@@ -51,13 +51,13 @@ router.post('/generate', async (req, res) => {
 // POST /api/contract/bundle
 router.post('/bundle', async (req, res) => {
   try {
-    const { formState } = req.body;
+    const { formState, projectCreator } = req.body;
     
     if (!formState) {
       return res.status(400).json({ error: 'Missing formState' });
     }
 
-    const buffer = await contractGenerator.generateContractBundle(formState);
+    const buffer = await contractGenerator.generateContractBundle(formState, { projectCreator });
     
     // 记录成功日志
     logBundleGeneration(req, formState.projectId, true);

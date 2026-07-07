@@ -109,7 +109,7 @@ export const commYunxinFormStrategy: FormStrategy = {
       if (!s.name.trim()) errors.push({ field: `subsidiary-${i}-name`, message: `子公司${i + 1}名称必填` });
       if (s.quota === undefined || s.quota === null || s.quota < 0) errors.push({ field: `subsidiary-${i}-quota`, message: `子公司${i + 1}分配额度必填` });
       else if (i > 0 && s.quota <= 0) errors.push({ field: `subsidiary-${i}-quota`, message: `子公司${i + 1}分配额度必须大于0` });
-      if (!s.creditCode.trim()) errors.push({ field: `subsidiary-${i}-creditCode`, message: `子公司${i + 1}社会信用代码必填` });
+
       if (this.requiresRepaymentAccount(state.coreInfo.clearingMethod)) {
         if (!s.repaymentAccount.trim()) errors.push({ field: `subsidiary-${i}-repaymentAccount`, message: `子公司${i + 1}核企还款账号必填` });
         if (!s.repaymentBank.trim()) errors.push({ field: `subsidiary-${i}-repaymentBank`, message: `子公司${i + 1}还款户开户行必填` });
@@ -121,6 +121,23 @@ export const commYunxinFormStrategy: FormStrategy = {
         }
         if (!s.repaymentUnionCode.trim()) errors.push({ field: `subsidiary-${i}-repaymentUnionCode`, message: `子公司${i + 1}还款户联行号必填` });
         else if (!/^\d{12}$/.test(s.repaymentUnionCode)) errors.push({ field: `subsidiary-${i}-repaymentUnionCode`, message: `子公司${i + 1}联行号必须为12位数字` });
+      }
+    });
+
+    // 子公司名称重复性校验
+    const nameCount = new Map<string, number[]>();
+    state.subsidiaries.forEach((s, i) => {
+      const name = s.name.trim();
+      if (name) {
+        if (!nameCount.has(name)) nameCount.set(name, []);
+        nameCount.get(name)!.push(i);
+      }
+    });
+    nameCount.forEach((indices, name) => {
+      if (indices.length > 1) {
+        indices.forEach(i => {
+          errors.push({ field: `subsidiary-${i}-name`, message: `子公司${i + 1}名称"${name}"重复` });
+        });
       }
     });
 

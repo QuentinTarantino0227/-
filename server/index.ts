@@ -2,12 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import contractRoutes from './routes/contract';
-import excelRoutes from './routes/excel';
-import projectRoutes from './routes/project';
-import authRoutes from './routes/auth';
-import { initDefaultUser } from './services/authService';
-import { cleanupOldProjects } from './services/projectService';
+import contractRoutes from './routes/contract.js';
+import excelRoutes from './routes/excel.js';
+import projectRoutes from './routes/project.js';
+import authRoutes from './routes/auth.js';
+import { initDefaultUser } from './services/authService.js';
+import { cleanupOldProjects } from './services/projectService.js';
 
 // 每日凌晨 3:00 自动清理历史项目（保留 30 天）
 const CLEANUP_HOUR = 3;

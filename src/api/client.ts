@@ -29,11 +29,11 @@ function handleAuthError(response: Response) {
 /**
  * 生成单个合同文档
  */
-export async function generateContract(formState: FormState, templateKey: string): Promise<Blob> {
+export async function generateContract(formState: FormState, templateKey: string, projectCreator?: string): Promise<Blob> {
   const response = await fetch(`${API_BASE}/contract/generate`, {
     method: 'POST',
     headers: getAuthHeaders(),
-    body: JSON.stringify({ formState, templateKey }),
+    body: JSON.stringify({ formState, templateKey, projectCreator }),
   });
 
   handleAuthError(response);
@@ -49,11 +49,11 @@ export async function generateContract(formState: FormState, templateKey: string
 /**
  * 生成合同包（ZIP）
  */
-export async function generateBundle(formState: FormState): Promise<Blob> {
+export async function generateBundle(formState: FormState, projectCreator?: string): Promise<Blob> {
   const response = await fetch(`${API_BASE}/contract/bundle`, {
     method: 'POST',
     headers: getAuthHeaders(),
-    body: JSON.stringify({ formState }),
+    body: JSON.stringify({ formState, projectCreator }),
   });
 
   handleAuthError(response);

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormState, saveProject } from '../hooks/useFormState';
 import { useAuth } from '../contexts/AuthContext';
@@ -13,20 +13,22 @@ export default function Result() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { state, clearState } = useFormState();
-
-  // 进入结果页时，用新 projectId 保存为正式合同记录（与暂存区分）
-  useEffect(() => {
+  const [contractState] = useState(() => {
     const now = new Date();
     const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
     const timeStr = `${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
     const random = Math.random().toString(36).substring(2, 5).toUpperCase();
-    const contractState = {
+    return {
       ...state,
       projectId: `HT-${dateStr}-${timeStr}-${random}`,
       createdAt: now.toISOString(),
     };
+  });
+
+  // 进入结果页时，用新 projectId 保存为正式合同记录（与暂存区分）
+  useEffect(() => {
     saveProject(contractState);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [contractState]);
 
   const handleRestart = () => {
     if (confirm('确定要清除所有数据并重新开始吗？')) {
@@ -37,10 +39,10 @@ export default function Result() {
 
   const handleBundleDownload = async () => {
     const dateStr = format(new Date(), 'yyyyMMdd');
-    const shortName = getEffectiveQuotaName(state);
+    const shortName = getEffectiveQuotaName(contractState);
 
     try {
-      const blob = await generateBundle(state);
+      const blob = await generateBundle(contractState, user?.display_name);
       const zipFileName = `合同文件合集_${shortName}_${dateStr}.zip`;
       saveAs(blob, zipFileName);
     } catch (err) {
@@ -50,19 +52,25 @@ export default function Result() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <span className="text-primary-600 font-bold text-lg">交通银行云信合同生成器</span>
+    <div className="app-shell">
+      <header className="app-header">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <span className="brand-mark">云</span>
+            <div>
+              <div className="text-base font-bold text-slate-900">交通银行云信合同生成器</div>
+              <div className="text-xs text-slate-500">合同文件生成结果</div>
+            </div>
+          </div>
           <div className="flex items-center gap-4">
             {user && (
-              <div className="text-xs text-gray-500">
-                <span className="font-medium">{user.display_name}</span>
-                <span className="text-gray-400 mx-1">|</span>
+              <div className="hidden text-right text-xs text-slate-500 sm:block">
+                <span className="font-semibold text-slate-700">{user.display_name}</span>
+                <span className="mx-1 text-slate-300">|</span>
                 <span>{user.affiliation}</span>
               </div>
             )}
-            <button onClick={handleRestart} className="text-sm text-red-600 hover:text-red-700 px-3">
+            <button onClick={handleRestart} className="rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 hover:text-red-700">
               开启新立项
             </button>
             {user && (
@@ -71,7 +79,7 @@ export default function Result() {
                   logout();
                   navigate('/login');
                 }}
-                className="text-xs text-gray-500 hover:text-red-600 transition"
+                className="text-xs font-medium text-slate-500 transition hover:text-red-600"
               >
                 退出登录
               </button>
@@ -80,25 +88,25 @@ export default function Result() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 py-8 space-y-5">
+      <main className="mx-auto max-w-4xl space-y-5 px-4 py-8">
         {/* 项目摘要条 */}
-        <div className="flex items-center gap-3 text-sm text-gray-600 bg-white rounded-lg border border-gray-200 px-5 py-3 shadow-sm">
+        <div className="flex flex-wrap items-center gap-3 rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm text-slate-600 shadow-sm shadow-slate-200/70">
           <svg className="w-4 h-4 text-primary-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
           </svg>
-          <span className="font-medium text-gray-800">{getEffectiveQuotaName(state)}</span>
-          <span className="text-gray-300">|</span>
-          <span>{state.coreInfo.initiatorName}</span>
-          <span className="text-gray-300">|</span>
-          <span className="text-gray-400">{state.projectId}</span>
+          <span className="font-semibold text-slate-800">{getEffectiveQuotaName(contractState)}</span>
+          <span className="text-slate-300">|</span>
+          <span>{contractState.coreInfo.initiatorName}</span>
+          <span className="text-slate-300">|</span>
+          <span className="font-mono text-xs text-slate-500">{contractState.projectId}</span>
         </div>
 
         {/* 合同文件卡片 */}
         <div className="card">
-          <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
-            <h3 className="text-base font-bold text-gray-900">合同文件</h3>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <h3 className="text-base font-bold text-slate-900">合同文件</h3>
             <div className="flex gap-2">
-              <ExcelExport state={state} />
+              <ExcelExport state={contractState} creator={user?.display_name} creatorAffiliation={user?.affiliation} />
               <button onClick={handleBundleDownload} className="btn-primary text-sm">
                 <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -107,7 +115,7 @@ export default function Result() {
               </button>
             </div>
           </div>
-          <ProtocolList state={state} />
+          <ProtocolList state={contractState} projectCreator={user?.display_name} />
         </div>
       </main>
     </div>

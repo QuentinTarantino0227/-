@@ -21,7 +21,7 @@ export default defineConfig({
       },
     },
     watch: {
-      ignored: ['**/node_modules/**', '**/.git/**', '**/AppData/**', '**/.*'],
+      ignored: ['**/node_modules/**', '**/.git/**', '**/AppData/**', '**/.*', '**/*.zip', '**/*.tmp', '**/~$*'],
     },
   },
   preview: {

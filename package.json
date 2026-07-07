@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run server:build",
     "lint": "eslint .",
     "preview": "vite preview",
     "server:dev": "tsx watch server/index.ts",
     "server:build": "tsc -p server/tsconfig.json",
-    "server:start": "node dist/server/server/index.js"
+    "server:start": "node dist/server/server/index.js",
+    "fix:template": "node scripts/fix-template-splits.js",
+    "fix:templates": "node scripts/fix-template-splits.js server/templates/comm_yunxin/*.docx && node scripts/fix-template-splits.js public/ContractForm/comm_yunxin/*.docx"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -33,6 +35,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/file-saver": "^2.0.7",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

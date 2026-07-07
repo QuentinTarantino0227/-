@@ -25,7 +25,6 @@ function generateSubsidiaryTable(subsidiaries: FormState['subsidiaries']): strin
     <tr>
       <td style="border:1px solid #333;padding:6px;">${s.name}</td>
       <td style="border:1px solid #333;padding:6px;">${s.quota}</td>
-      <td style="border:1px solid #333;padding:6px;">${s.creditCode}</td>
       <td style="border:1px solid #333;padding:6px;">${s.repaymentAccount}</td>
       <td style="border:1px solid #333;padding:6px;">${s.repaymentBank}</td>
       <td style="border:1px solid #333;padding:6px;">${s.repaymentUnionCode}</td>
@@ -93,7 +92,7 @@ function buildReplacements(state: FormState): Record<string, string> {
   const result: Record<string, string> = {
     '{{额度发起方名称}}': coreInfo.initiatorName,
     '{{统一社会信用代码}}': coreInfo.creditCode,
-    '{{云信额度}}': numberToChinese(coreInfo.cloudQuota),
+    '{{云信额度}}': numberToChinese(coreInfo.cloudQuota * 10000) + '元',
     '{{是否集团模式}}': coreInfo.isGroupMode,
 
     '{{清分方式}}': coreInfo.clearingMethod,
@@ -153,7 +152,9 @@ function buildReplacements(state: FormState): Record<string, string> {
     '{{initiatorName}}': coreInfo.initiatorName,
     '{{creditCode}}': coreInfo.creditCode,
     '{{cloudQuota}}': String(coreInfo.cloudQuota),
-    '{{cloudQuotaChinese}}': numberToChinese(coreInfo.cloudQuota),
+    '{{sumplatfee}}': String(Math.round(((rateInfo.platformFee || 0) + (rateInfo.sponsorFee || 0)) * 10000) / 10000),
+    '{{sumconsubQuota}}': String(subsidiaries.reduce((sum, s) => sum + (s.quota || 0), 0)),
+    '{{cloudQuotaChinese}}': numberToChinese(coreInfo.cloudQuota * 10000) + '元',
     '{{isGroupMode}}': coreInfo.isGroupMode,
 
 
@@ -183,6 +184,7 @@ function buildReplacements(state: FormState): Record<string, string> {
     '{{financingRate}}': `${rateInfo.financingRate}%（${rateInfo.financingRateType || '年化'}）`,
     '{{factoringFee}}': `${rateInfo.factoringFee}%（${rateInfo.factoringFeeType || '非年化'}）`,
     '{{platformFee}}': `${rateInfo.platformFee}%（${rateInfo.platformFeeType || '年化'}）`,
+    '{{sponsorFeeNotice}}': rateInfo.sponsorFee ? `除上述表格内费用外，上述额度签发的云信业务，我司确认并委托中企云链平台收取保荐费，收费标准${rateInfo.sponsorFeeType || '年化'}${rateInfo.sponsorFee}%。` : '',
     '{{quotaShortName}}': getEffectiveQuotaName(state),
     '{{quotaLetterShortName}}': getEffectiveQuotaName(state),
     '{{tempNoQuotaAllocation}}': String(tempNoQuotaAllocation),
@@ -198,7 +200,8 @@ function buildReplacements(state: FormState): Record<string, string> {
     '{{rlUnionCode}}': repaymentLetterUnionCode,
     '{{rlDate}}': today,
     '{{shitNO}}': bankInfo.branchCreditCode.substring(8, 17),
-    '{{conrecvAccountName}}': receiveAccount.accountNumber,
+    '{{conrecvAccountName}}': receiveAccount.accountName,
+    '{{conrecvAccountNo}}': receiveAccount.identifier || receiveAccount.accountNumber,
   };
 
   const MAX_SUBS = 150;
@@ -244,11 +247,6 @@ function buildReplacements(state: FormState): Record<string, string> {
     .map(s => s.name.trim())
     .filter(n => n);
   result['{{allSubsidiaryNames}}'] = subNames.join('、');
-
-  for (let i = 1; i <= 149; i++) {
-    const sub = subsidiaries[i];
-    result[`{{consub${i}_subCreditCode}}`] = sub && sub.creditCode ? sub.creditCode : '-';
-  }
 
   for (let i = 1; i <= 149; i++) {
     const sub = subsidiaries[i];

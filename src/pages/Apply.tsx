@@ -66,14 +66,13 @@ export default function Apply() {
       // 集团模式下第一行子公司为空时自动带入
       if (state.coreInfo.isGroupMode === '是' && state.subsidiaries.length > 0) {
         const first = state.subsidiaries[0];
-        const isEmpty = !first.name.trim() && !first.creditCode.trim();
-        if (isEmpty && (state.coreInfo.initiatorName || state.coreInfo.creditCode)) {
+        const isEmpty = !first.name.trim();
+        if (isEmpty && state.coreInfo.initiatorName) {
           patch.subsidiaries = state.subsidiaries.map((s, i) =>
             i === 0
               ? {
                   ...s,
                   name: state.coreInfo.initiatorName,
-                  creditCode: state.coreInfo.creditCode,
                   repaymentAccount: state.coreInfo.repaymentAccount,
                   repaymentBank: state.coreInfo.repaymentBank,
                   repaymentUnionCode: state.coreInfo.repaymentUnionCode,
@@ -178,7 +177,7 @@ export default function Apply() {
             clearingMethod={state.coreInfo.clearingMethod}
             productType={state.coreInfo.productType}
             defaultName={state.coreInfo.initiatorName}
-            defaultCreditCode={state.coreInfo.creditCode}
+
             defaultRepaymentAccount={state.coreInfo.repaymentAccount}
             defaultRepaymentBank={state.coreInfo.repaymentBank}
             defaultRepaymentUnionCode={state.coreInfo.repaymentUnionCode}
@@ -204,30 +203,34 @@ export default function Apply() {
   }, [currentStep, group, state]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-primary-600 font-bold text-lg">交通银行云信合同生成器</span>
+    <div className="app-shell">
+      <header className="app-header">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <span className="brand-mark">云</span>
+            <div>
+              <div className="text-base font-bold text-slate-900">交通银行云信合同生成器</div>
+              <div className="text-xs text-slate-500">立项信息填写</div>
+            </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-xs text-gray-500">
+            <div className="hidden text-right text-xs text-slate-500 sm:block">
               {user && (
                 <>
-                  <span className="font-medium">{user.display_name}</span>
-                  <span className="text-gray-400 mx-1">|</span>
+                  <span className="font-semibold text-slate-700">{user.display_name}</span>
+                  <span className="mx-1 text-slate-300">|</span>
                   <span>{user.affiliation}</span>
                 </>
               )}
             </div>
-            <div className="text-xs text-gray-400">步骤 {currentStep + 1} / {TOTAL_STEPS}</div>
+            <div className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">步骤 {currentStep + 1} / {TOTAL_STEPS}</div>
             {user && (
               <button
                 onClick={() => {
                   logout();
                   navigate('/login');
                 }}
-                className="text-xs text-gray-500 hover:text-red-600 transition"
+                className="text-xs font-medium text-slate-500 transition hover:text-red-600"
               >
                 退出登录
               </button>
@@ -236,7 +239,7 @@ export default function Apply() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 py-8">
+      <main className="mx-auto max-w-4xl px-4 py-8">
         <Stepper state={state} currentStep={currentStep} completedSteps={completedSteps} />
 
         <div className="card">

@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import XLSX from 'xlsx';
-import { generateExcelData } from '../../src/utils/excelMapping';
-import { getEffectiveQuotaName } from '../../src/utils/excelMapping';
-import { logExcelExport } from '../services/auditLogger';
+import { generateExcelData } from '../../src/utils/excelMapping.js';
+import { getEffectiveQuotaName } from '../../src/utils/excelMapping.js';
+import { logExcelExport } from '../services/auditLogger.js';
 
 const router = Router();
 

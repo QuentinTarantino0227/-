@@ -1,5 +1,5 @@
-import db from '../db/database';
-import type { FormState } from '../../src/types/form';
+import db from '../db/database.js';
+import type { FormState } from '../../src/types/form.js';
 
 export interface ProjectRecord {
   project_id: string;
@@ -85,7 +85,8 @@ export function getProject(projectId: string, userId: number): ProjectRecordPars
     createdAt: row.created_at,
     name: row.name,
     state: JSON.parse(row.state),
-    lastSaved: row.last_saved
+    lastSaved: row.last_saved,
+    pinned: row.pinned === 1
   };
 }
 

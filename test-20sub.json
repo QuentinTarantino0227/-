@@ -1,0 +1,250 @@
+{
+  "projectId": "HT-20260705-005807-PRE",
+  "createdAt": "2026-07-04T16:58:07.375Z",
+  "coreInfo": {
+    "initiatorName": "中铁十六局股份有限公司",
+    "creditCode": "313132132131212233",
+    "cloudQuota": 3999,
+    "isGroupMode": "是",
+    "productType": "云信",
+    "cooperationBank": "交通银行",
+    "cooperationMode": "",
+    "clearingMethod": "实体户：工商银行",
+    "repaymentAccount": "12323121U878821",
+    "repaymentBank": "工商银行核企开户支行",
+    "repaymentUnionCode": "123231212111",
+    "interestPayer": "需要买方付息",
+    "buyerInterestDetail": "子公司各自付息费",
+    "firstTradeBack": ""
+  },
+  "subsidiaries": [
+    {
+      "id": "vge93of",
+      "name": "中铁十六局股份有限公司",
+      "quota": 0,
+      "creditCode": "313132132131212233",
+      "repaymentAccount": "12323121U878821",
+      "repaymentBank": "工商银行核企开户支行",
+      "repaymentUnionCode": "123231212111"
+    },
+    {
+      "id": "zi5fn9s",
+      "name": "中铁十六局股份有限公司子公司1",
+      "quota": 3000,
+      "creditCode": "313132132131212232",
+      "repaymentAccount": "12323121U878833",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212113"
+    },
+    {
+      "id": "3morudq",
+      "name": "中铁十六局股份有限公司子公司2",
+      "quota": 500,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "gulcwen",
+      "name": "中铁十六局股份有限公司子公司3",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "27c06oi",
+      "name": "中铁十六局股份有限公司子公司4",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "oryf8mu",
+      "name": "中铁十六局股份有限公司子公司5",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "l8z45t4",
+      "name": "中铁十六局股份有限公司子公司6",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "j4oz7xc",
+      "name": "中铁十六局股份有限公司子公司7",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "vfq281n",
+      "name": "中铁十六局股份有限公司子公司8",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "05wnpab",
+      "name": "中铁十六局股份有限公司子公司9",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "ydswd47",
+      "name": "中铁十六局股份有限公司子公司10",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "gj73x0p",
+      "name": "中铁十六局股份有限公司子公司11",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "x8uxkgz",
+      "name": "中铁十六局股份有限公司子公司12",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "3zihvru",
+      "name": "中铁十六局股份有限公司子公司13",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "f4ynpiy",
+      "name": "中铁十六局股份有限公司子公司14",
+      "quota": 1,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "a4x9exi",
+      "name": "子公司15",
+      "quota": 2,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "s338l17",
+      "name": "子公司16",
+      "quota": 2,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "p38pxy8",
+      "name": "子公司17",
+      "quota": 2,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "pzjua5d",
+      "name": "子公司18",
+      "quota": 2,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "tv2hfla",
+      "name": "子公司19",
+      "quota": 2,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    },
+    {
+      "id": "wnfhgof",
+      "name": "子公司20",
+      "quota": 2,
+      "creditCode": "",
+      "repaymentAccount": "12323121U878832",
+      "repaymentBank": "工商银行核企开户支行2",
+      "repaymentUnionCode": "123231212122"
+    }
+  ],
+  "bankInfo": {
+    "branchName": "交通银行股份有限公司北京市西城区支行",
+    "creditStartDate": "2026-07-12",
+    "managerName": "王十六",
+    "creditEndDate": "2027-05-15",
+    "managerPhone": "18912837826",
+    "branchRegion": "河南省三门峡市市辖区",
+    "branchProvince": "河南省",
+    "branchCity": "三门峡市",
+    "branchArea": "市辖区",
+    "branchAddress": "自强路21号",
+    "initiatorAccount": "78728378718627261267111",
+    "initiatorBank": "交通银行股份有限公司北京市西城区支行",
+    "branchCreditCode": "121237172192891211"
+  },
+  "receiveAccount": {
+    "accountName": "暂收结算款项-应收账款清分还款",
+    "accountNumber": "1287382783787182781782",
+    "identifier": "KOPO13767",
+    "bankName": "交通银行股份有限公司北京市西城区支行",
+    "unionCode": "372837817831"
+  },
+  "rateInfo": {
+    "financingRate": 3.2,
+    "financingRateType": "年化",
+    "factoringFee": 0.1,
+    "factoringFeeType": "非年化",
+    "platformFee": 0.2,
+    "platformFeeType": "年化",
+    "sponsorFee": 0,
+    "sponsorFeeType": "年化"
+  },
+  "otherInfo": {
+    "quotaShortName": "十六局-交行",
+    "projectType": "",
+    "quotaName": "",
+    "mixedQuotaName": "",
+    "adjustmentNo": ""
+  }
+}

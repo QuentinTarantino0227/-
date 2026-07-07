@@ -11,7 +11,6 @@ interface Props {
   clearingMethod: string;
   productType?: string;
   defaultName: string;
-  defaultCreditCode: string;
   defaultRepaymentAccount: string;
   defaultRepaymentBank: string;
   defaultRepaymentUnionCode: string;
@@ -25,7 +24,6 @@ export default function Step2GroupMode({
   clearingMethod,
   productType,
   defaultName,
-  defaultCreditCode,
   defaultRepaymentAccount,
   defaultRepaymentBank,
   defaultRepaymentUnionCode,
@@ -39,13 +37,12 @@ export default function Step2GroupMode({
   useEffect(() => {
     if (subsidiaries.length > 0) {
       const first = subsidiaries[0];
-      const isEmpty = !first.name.trim() && !first.creditCode.trim();
-      if (isEmpty && (defaultName || defaultCreditCode)) {
+      const isEmpty = !first.name.trim();
+      if (isEmpty && defaultName) {
         const next = [...subsidiaries];
         next[0] = {
           ...first,
           name: defaultName,
-          creditCode: defaultCreditCode,
           repaymentAccount: defaultRepaymentAccount,
           repaymentBank: defaultRepaymentBank,
           repaymentUnionCode: defaultRepaymentUnionCode,
@@ -56,50 +53,32 @@ export default function Step2GroupMode({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 当 step1 企业名称/信用代码变化时，同步更新第一行（保持与 step1 一致）
+  // 当 step1 企业名称/还款账号变化时，同步更新第一行（保持与 step1 一致）
   useEffect(() => {
     if (subsidiaries.length > 0) {
-      const hasDefaultInfo = defaultName || defaultCreditCode;
-      if (hasDefaultInfo) {
-        const first = subsidiaries[0];
-        if (first.name !== defaultName || first.creditCode !== defaultCreditCode) {
-          const next = [...subsidiaries];
-          next[0] = {
-            ...first,
-            name: defaultName,
-            creditCode: defaultCreditCode,
-          };
-          onChange(next);
-        }
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultName, defaultCreditCode]);
-
-  // 当 step1 还款账号信息变化时，同步更新第一行（保持与 step1 一致）
-  useEffect(() => {
-    if (subsidiaries.length > 0 && needRepaymentAccount) {
-      const hasStep1Repayment = defaultRepaymentAccount || defaultRepaymentBank || defaultRepaymentUnionCode;
-      if (hasStep1Repayment) {
-        const first = subsidiaries[0];
-        if (
-          first.repaymentAccount !== defaultRepaymentAccount ||
-          first.repaymentBank !== defaultRepaymentBank ||
-          first.repaymentUnionCode !== defaultRepaymentUnionCode
-        ) {
-          const next = [...subsidiaries];
-          next[0] = {
-            ...first,
+      const first = subsidiaries[0];
+      const shouldUpdateName = defaultName !== undefined && first.name !== defaultName;
+      const shouldUpdateRepayment = needRepaymentAccount && (
+        first.repaymentAccount !== defaultRepaymentAccount ||
+        first.repaymentBank !== defaultRepaymentBank ||
+        first.repaymentUnionCode !== defaultRepaymentUnionCode
+      );
+      if (shouldUpdateName || shouldUpdateRepayment) {
+        const next = [...subsidiaries];
+        next[0] = {
+          ...first,
+          ...(shouldUpdateName ? { name: defaultName } : {}),
+          ...(shouldUpdateRepayment ? {
             repaymentAccount: defaultRepaymentAccount,
             repaymentBank: defaultRepaymentBank,
             repaymentUnionCode: defaultRepaymentUnionCode,
-          };
-          onChange(next);
-        }
+          } : {}),
+        };
+        onChange(next);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultRepaymentAccount, defaultRepaymentBank, defaultRepaymentUnionCode, needRepaymentAccount]);
+  }, [defaultName, defaultRepaymentAccount, defaultRepaymentBank, defaultRepaymentUnionCode, needRepaymentAccount]);
 
   const updateSub = (index: number, patch: Partial<Subsidiary>) => {
     const next = [...subsidiaries];
@@ -149,7 +128,6 @@ export default function Step2GroupMode({
             <tr className="bg-gray-100 text-gray-700">
               <th className="px-2 py-2 text-left font-medium min-w-[320px]">子公司名称</th>
               <th className="px-2 py-2 text-left font-medium min-w-[120px]">分配额度（万元）</th>
-              <th className="px-2 py-2 text-left font-medium min-w-[180px]">社会信用代码</th>
               {needRepaymentAccount && (
                 <>
                   <th className="px-2 py-2 text-left font-medium min-w-[160px]">核企还款账号</th>
@@ -165,11 +143,11 @@ export default function Step2GroupMode({
               <tr key={s.id} className="border-b border-gray-100">
                 <td className="px-2 py-2">
                   <input
-                    className={`w-full rounded border px-2 py-1 text-sm focus:border-primary-500 focus:outline-none ${i === 0 && (defaultName || defaultCreditCode) ? 'bg-gray-100 text-gray-600 cursor-not-allowed' : 'border-gray-300'}`}
+                    className={`w-full rounded border px-2 py-1 text-sm focus:border-primary-500 focus:outline-none ${i === 0 && defaultName ? 'bg-gray-100 text-gray-600 cursor-not-allowed' : 'border-gray-300'}`}
                     value={s.name}
                     onChange={e => updateSub(i, { name: e.target.value })}
                     placeholder={i === 0 ? '名称' : `子公司${i}`}
-                    readOnly={i === 0 && !!(defaultName || defaultCreditCode)}
+                    readOnly={i === 0 && !!defaultName}
                   />
                 </td>
                 <td className="px-2 py-2">
@@ -185,16 +163,7 @@ export default function Step2GroupMode({
                     placeholder="额度"
                   />
                 </td>
-                <td className="px-2 py-2">
-                  <input
-                    className={`w-full rounded border px-2 py-1 text-sm focus:border-primary-500 focus:outline-none ${i === 0 && (defaultName || defaultCreditCode) ? 'bg-gray-100 text-gray-600 cursor-not-allowed' : 'border-gray-300'}`}
-                    value={s.creditCode}
-                    onChange={e => updateSub(i, { creditCode: e.target.value })}
-                    placeholder="信用代码"
-                    maxLength={18}
-                    readOnly={i === 0 && !!(defaultName || defaultCreditCode)}
-                  />
-                </td>
+
                 {needRepaymentAccount && (
                   <>
                     <td className="px-2 py-2">
